@@ -38,7 +38,7 @@
         };
         rubyNix = ruby-nix.lib pkgs;
 
-        # TODO generate gemset.nix with bundix
+        # TODO generate gemset.nix with bundix, AND add it to git.
         gemset = if builtins.pathExists ./gemset.nix then import ./gemset.nix else { };
 
         # If you want to override gem build config, see
