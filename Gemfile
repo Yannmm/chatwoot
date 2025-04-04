@@ -64,7 +64,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
-gem 'vite_rails'
+gem 'vite_ruby'
 # metrics on heroku
 gem 'barnes'
 
@@ -177,6 +177,8 @@ gem 'iso-639'
 gem 'ruby-openai'
 
 gem 'shopify_api'
+
+gem 'concurrent-ruby', '1.3.4' 
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

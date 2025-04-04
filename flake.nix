@@ -8,7 +8,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs";
-    ruby-nix.url = "github:inscapist/ruby-nix";
+    ruby-nix.url = "github:Yannmm/ruby-nix?ref=ignore-collisions";
     # a fork that supports platform dependant gem
     bundix = {
       url = "github:inscapist/bundix/main";
@@ -127,6 +127,7 @@
             inherit gemset ruby;
             name = "chatwoot";
             gemConfig = pkgs.defaultGemConfig // gemConfig;
+            ignoreCollisions = true;
           })
           env
           ;
@@ -150,6 +151,8 @@
                 redis
                 rufo
                 pnpm
+                nodejs_20
+                imagemagick
                 # more packages here
               ]);
 
