@@ -146,13 +146,14 @@
               ]
               ++ (with pkgs; [
                 # yarn
-                postgresql
+                (pkgs.postgresql_17.withPackages (ps: [ pkgs.postgresql_17.pkgs.pgvector ]))
                 heroku
                 redis
                 rufo
                 pnpm
                 nodejs_20
                 imagemagick
+                
                 # more packages here
               ]);
 
