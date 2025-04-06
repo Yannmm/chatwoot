@@ -153,6 +153,7 @@
                 pnpm
                 nodejs_20
                 imagemagick
+                foreman
                 
                 # more packages here
               ]);

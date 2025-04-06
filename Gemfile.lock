@@ -905,6 +905,9 @@ GEM
       activemodel (>= 6.0)
       mail (~> 2.5)
     version_gem (1.1.6)
+    vite_rails (3.0.19)
+      railties (>= 5.1, < 9)
+      vite_ruby (~> 3.0, >= 3.2.2)
     vite_ruby (3.9.2)
       dry-cli (>= 0.7, < 2)
       logger (~> 1.6)
@@ -1070,7 +1073,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   valid_email2
-  vite_ruby
+  vite_rails
   web-console (>= 4.2.1)
   web-push (>= 3.0.1)
   webmock

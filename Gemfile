@@ -64,7 +64,8 @@ gem 'activerecord-import'
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
-gem 'vite_ruby'
+# gem 'vite_ruby'
+gem "vite_rails"
 # metrics on heroku
 gem 'barnes'
 
