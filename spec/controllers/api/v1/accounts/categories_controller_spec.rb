@@ -98,7 +98,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(category_to_associate.reload.associated_category_ids).to eql(Category.last(2).pluck(:id))
       end
 
-      it 'will throw an error on locale, category_id uniqueness' do
+      it 'throws an error on locale, category_id uniqueness' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
              headers: agent.create_new_auth_token
@@ -111,7 +111,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(json_response['message']).to eql('Locale should be unique in the category and portal')
       end
 
-      it 'will throw an error slug presence' do
+      it 'throws an error slug presence' do
         category_params = {
           category: {
             name: 'test_category',
@@ -248,7 +248,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
     context 'when it is an authenticated user' do
       it 'get all categories in portal' do
-        category_count = Category.all.count
+        category_count = Category.count
 
         category2 = create(:category, name: 'test_category_2', portal: portal, locale: 'es', slug: 'category_slug_2')
 

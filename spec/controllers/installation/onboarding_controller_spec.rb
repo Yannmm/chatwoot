@@ -42,12 +42,12 @@ RSpec.describe 'Installation::Onboarding API', type: :request do
         expect(Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)).to be_nil
       end
 
-      it 'will not call register instance when checkboxes are unchecked' do
+      it 'does not call register instance when checkboxes are unchecked' do
         post '/installation/onboarding', params: { user: {} }
         expect(ChatwootHub).not_to have_received(:register_instance)
       end
 
-      it 'will call register instance when checkboxes are checked' do
+      it 'calls register instance when checkboxes are checked' do
         post '/installation/onboarding', params: { user: {}, subscribe_to_updates: 1 }
         expect(ChatwootHub).to have_received(:register_instance)
       end

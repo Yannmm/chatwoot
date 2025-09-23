@@ -1,7 +1,9 @@
-require:
+plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+
+require:
   - ./rubocop/use_from_email.rb
   - ./rubocop/custom_cop_location.rb
 
@@ -100,8 +102,6 @@ RSpec/NestedGroups:
 RSpec/MessageSpies:
   Enabled: false
 RSpec/StubbedMock:
-  Enabled: false
-RSpec/FactoryBot/SyntaxMethods:
   Enabled: false
 Naming/VariableNumber:
   Enabled: false

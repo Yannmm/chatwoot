@@ -178,7 +178,7 @@ describe Integrations::Slack::SendOnSlackService do
         expect(message.attachments).to be_any
       end
 
-      it 'will not call file_upload if attachment does not have a file (e.g facebook - fallback type)' do
+      it 'does not call file_upload if attachment does not have a file (e.g facebook - fallback type)' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,
           text: message.content,
@@ -319,7 +319,7 @@ describe Integrations::Slack::SendOnSlackService do
         builder.perform
       end
 
-      it 'will not throw error if message content is nil' do
+      it 'does not throw error if message content is nil' do
         message.update!(content: nil)
         conversation.update!(identifier: 'random_slack_thread_ts')
 

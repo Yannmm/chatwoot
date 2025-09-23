@@ -92,7 +92,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'will process the events' do
+      it 'processes the events' do
         post process_event_api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
              params: params,
              headers: agent.create_new_auth_token,

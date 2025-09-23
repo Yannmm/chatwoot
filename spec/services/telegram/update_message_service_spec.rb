@@ -56,7 +56,7 @@ describe Telegram::UpdateMessageService do
     end
 
     context 'when invalid update message params' do
-      it 'will not raise errors' do
+      it 'does not raise errors' do
         expect do
           described_class.new(inbox: telegram_channel.inbox, params: {}).perform
         end.not_to raise_error

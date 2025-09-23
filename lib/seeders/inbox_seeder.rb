@@ -85,7 +85,7 @@ class Seeders::InboxSeeder
     Channel::Telegram.insert(
       {
         account_id: @account.id,
-        bot_name: (@company_data['name']).to_s,
+        bot_name: @company_data['name'].to_s,
         bot_token: bot_token,
         created_at: Time.now.utc,
         updated_at: Time.now.utc

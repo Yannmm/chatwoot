@@ -12,10 +12,8 @@ describe Twitter::WebhookSubscribeService do
 
   before do
     allow(Twitty::Facade).to receive(:new).and_return(twitter_client)
-    allow(twitter_client).to receive(:register_webhook).and_return(twitter_success_response)
-    allow(twitter_client).to receive(:unregister_webhook).and_return(twitter_success_response)
-    allow(twitter_client).to receive(:fetch_subscriptions).and_return(instance_double(Twitty::Response, status: '204', body: { message: 'Valid' }))
-    allow(twitter_client).to receive(:create_subscription).and_return(instance_double(Twitty::Response, status: '204', body: { message: 'Valid' }))
+    allow(twitter_client).to receive_messages(register_webhook: twitter_success_response, unregister_webhook: twitter_success_response,
+                                              fetch_subscriptions: instance_double(Twitty::Response, status: '204', body: { message: 'Valid' }), create_subscription: instance_double(Twitty::Response, status: '204', body: { message: 'Valid' }))
   end
 
   describe '#perform' do
@@ -56,11 +54,8 @@ describe Twitter::WebhookSubscribeService do
 
     context 'when correct webhook is present' do
       it 'calls create subscription if subscription is not present' do
-        allow(twitter_client).to receive(:fetch_webhooks).and_return(
-          instance_double(Twitty::Response, status: '200',
-                                            body: [{ 'url' => webhook_subscribe_service.send(:twitter_url) }])
-        )
-        allow(twitter_client).to receive(:fetch_subscriptions).and_return(instance_double(Twitty::Response, status: '500'))
+        allow(twitter_client).to receive_messages(fetch_webhooks: instance_double(Twitty::Response, status: '200',
+                                                                                                    body: [{ 'url' => webhook_subscribe_service.send(:twitter_url) }]), fetch_subscriptions: instance_double(Twitty::Response, status: '500'))
         webhook_subscribe_service.perform
         expect(twitter_client).to have_received(:create_subscription)
       end

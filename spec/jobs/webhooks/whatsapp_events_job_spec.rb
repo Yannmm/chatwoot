@@ -41,7 +41,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(params)
     end
 
-    it 'will not enqueue message jobs based on phone number in the URL if the entry payload is not present' do
+    it 'does not enqueue message jobs based on phone number in the URL if the entry payload is not present' do
       params = {
         object: 'whatsapp_business_account',
         phone_number: channel.phone_number,
@@ -55,14 +55,14 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(params)
     end
 
-    it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
+    it 'does not enqueue Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
       channel.prompt_reauthorization!
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
       job.perform_now(params)
     end
 
-    it 'will not enqueue if channel is not present' do
+    it 'does not enqueue if channel is not present' do
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
 
@@ -71,7 +71,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(phone_number: 'random_phone_number')
     end
 
-    it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if account is suspended' do
+    it 'does not enqueue Whatsapp::IncomingMessageWhatsappCloudService if account is suspended' do
       account = channel.account
       account.update!(status: :suspended)
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
@@ -217,7 +217,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       end.not_to change(Conversation, :count)
     end
 
-    it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do
+    it 'does not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
       wb_params = {

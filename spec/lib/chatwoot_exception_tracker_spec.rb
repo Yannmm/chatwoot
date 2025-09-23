@@ -16,7 +16,7 @@ describe ChatwootExceptionTracker do
       end
     end
 
-    it 'will call sentry capture exception' do
+    it 'calls sentry capture exception' do
       with_modified_env SENTRY_DSN: 'random dsn' do
         expect(Sentry).to receive(:capture_exception).with('random')
         described_class.new('random').capture_exception

@@ -79,8 +79,8 @@ class Message < ApplicationRecord
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
 
-  enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
-  enum content_type: {
+  enum :message_type, { incoming: 0, outgoing: 1, activity: 2, template: 3 }
+  enum :content_type, {
     text: 0,
     input_text: 1,
     input_textarea: 2,
@@ -94,7 +94,7 @@ class Message < ApplicationRecord
     integrations: 10,
     sticker: 11
   }
-  enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
+  enum :status, { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
@@ -226,7 +226,7 @@ class Message < ApplicationRecord
     return if conversation.blank?
 
     # there are cases where automations can result in message loops, we need to prevent such cases.
-    if conversation.messages.where('created_at >= ?', 1.minute.ago).count >= Limits.conversation_message_per_minute_limit
+    if conversation.messages.where(created_at: 1.minute.ago..).count >= Limits.conversation_message_per_minute_limit
       Rails.logger.error "Too many message: Account Id - #{account_id} : Conversation id - #{conversation_id}"
       errors.add(:base, 'Too many messages')
     end
@@ -359,9 +359,9 @@ class Message < ApplicationRecord
   end
 
   def can_notify_via_mail?
-    return unless email_notifiable_message?
-    return unless email_notifiable_channel?
-    return if conversation.contact.email.blank?
+    return false unless email_notifiable_message?
+    return false unless email_notifiable_channel?
+    return false if conversation.contact.email.blank?
 
     true
   end

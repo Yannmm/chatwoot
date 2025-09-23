@@ -65,7 +65,7 @@ class Contact < ApplicationRecord
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
 
-  enum contact_type: { visitor: 0, lead: 1, customer: 2 }
+  enum :contact_type, { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
@@ -136,7 +136,7 @@ class Contact < ApplicationRecord
     where('contacts.email IS NULL OR contacts.email = ?', '')
       .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
       .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
-      .where('contacts.created_at < ?', time_period)
+      .where(contacts: { created_at: ...time_period })
       .where.missing(:conversations)
   }
 

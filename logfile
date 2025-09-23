@@ -1,0 +1,2 @@
+2025-04-04 16:21:37.754 CST [82444] FATAL:  lock file "postmaster.pid" already exists
+2025-04-04 16:21:37.754 CST [82444] HINT:  Is another postmaster (PID 82278) running in data directory "/tmp/postgres_data"?

@@ -6,8 +6,7 @@ RSpec.describe MutexApplicationJob do
 
   before do
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
-    allow(lock_manager).to receive(:lock).and_return(true)
-    allow(lock_manager).to receive(:unlock).and_return(true)
+    allow(lock_manager).to receive_messages(lock: true, unlock: true)
   end
 
   describe '#with_lock' do

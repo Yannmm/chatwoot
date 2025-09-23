@@ -82,7 +82,7 @@ RSpec.describe AutomationRule do
         expect(rule.reauthorization_required?).to be false
       end
 
-      it 'will not unset the error count if conditions are not updated' do
+      it 'does not unset the error count if conditions are not updated' do
         rule = create(:automation_rule)
         rule.prompt_reauthorization!
         expect(rule.reauthorization_required?).to be true

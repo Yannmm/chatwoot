@@ -26,13 +26,13 @@ shared_examples_for 'auto_assignment_handler' do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
-    it 'will not auto assign agent if enable_auto_assignment is false' do
+    it 'does not auto assign agent if enable_auto_assignment is false' do
       inbox.update(enable_auto_assignment: false)
 
       expect(conversation.reload.assignee).to be_nil
     end
 
-    it 'will not auto assign agent if its a bot conversation' do
+    it 'does not auto assign agent if its a bot conversation' do
       conversation = create(
         :conversation,
         account: account,

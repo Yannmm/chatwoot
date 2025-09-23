@@ -25,7 +25,7 @@ describe Sms::IncomingMessageService do
       it 'creates appropriate conversations, message and contacts' do
         described_class.new(inbox: sms_channel.inbox, params: params).perform
         expect(sms_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('+1 423-423-4234')
+        expect(Contact.first.name).to eq('+1 423-423-4234')
         expect(sms_channel.inbox.messages.first.content).to eq(params[:text])
       end
 
@@ -64,7 +64,7 @@ describe Sms::IncomingMessageService do
         expect(contact_inbox.conversations.last.messages.last.content).to eq(params[:text])
       end
 
-      it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
+      it 'does not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
         sms_channel.inbox.update(lock_to_single_conversation: false)
         contact_inbox = create(:contact_inbox, inbox: sms_channel.inbox, source_id: params[:from])
         last_conversation = create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox)
@@ -88,7 +88,7 @@ describe Sms::IncomingMessageService do
 
         described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
         expect(sms_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('+1 423-423-4234')
+        expect(Contact.first.name).to eq('+1 423-423-4234')
         expect(sms_channel.inbox.messages.first.content).to eq('test message')
         expect(sms_channel.inbox.messages.first.attachments.present?).to be true
       end

@@ -204,14 +204,14 @@ RSpec.describe Message do
       expect(message.conversation.open?).to be true
     end
 
-    it 'will not reopen if the conversation is muted' do
+    it 'does not reopen if the conversation is muted' do
       conversation.resolved!
       conversation.mute!
       message.save!
       expect(message.conversation.open?).to be false
     end
 
-    it 'will mark the conversation as pending if the agent bot is active' do
+    it 'marks the conversation as pending if the agent bot is active' do
       agent_bot = create(:agent_bot)
       inbox = conversation.inbox
       inbox.agent_bot = agent_bot

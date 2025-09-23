@@ -3,7 +3,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def perform(inbox)
     # limiting the number of conversations to be resolved to avoid any performance issues
-    resolvable_conversations = inbox.conversations.pending.where('last_activity_at < ? ', Time.now.utc - 1.hour).limit(Limits::BULK_ACTIONS_LIMIT)
+    resolvable_conversations = inbox.conversations.pending.where(last_activity_at: ...(Time.now.utc - 1.hour)).limit(Limits::BULK_ACTIONS_LIMIT)
     resolvable_conversations.each do |conversation|
       conversation.messages.create!(
         {

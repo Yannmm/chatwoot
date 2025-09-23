@@ -31,7 +31,7 @@ shared_examples_for 'avatarable' do
       expect(Avatar::AvatarFromGravatarJob).to have_been_enqueued.with(avatarable, avatarable.email) if avatarable.respond_to?(:email)
     end
 
-    it 'will not enqueu when email is not changed on avatarable update' do
+    it 'does not enqueu when email is not changed on avatarable update' do
       avatarable.updated_at = Time.now.utc
       expect do
         avatarable.save!

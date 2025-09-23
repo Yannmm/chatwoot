@@ -36,7 +36,7 @@ class ContactInbox < ApplicationRecord
   # contact_inboxes that are not associated with any conversation
   scope :stale_without_conversations, lambda { |time_period|
     left_joins(:conversations)
-      .where('contact_inboxes.created_at < ?', time_period)
+      .where(contact_inboxes: { created_at: ...time_period })
       .where(conversations: { contact_id: nil })
   }
 

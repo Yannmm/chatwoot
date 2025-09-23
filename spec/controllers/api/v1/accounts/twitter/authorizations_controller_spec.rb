@@ -30,8 +30,7 @@ RSpec.describe 'Twitter Authorization API', type: :request do
       it 'creates a new authorization and returns the redirect url' do
         allow(Twitty::Facade).to receive(:new).and_return(twitter_client)
         allow(twitter_client).to receive(:request_oauth_token).and_return(twitter_response)
-        allow(twitter_response).to receive(:status).and_return('200')
-        allow(twitter_response).to receive(:raw_response).and_return(raw_response)
+        allow(twitter_response).to receive_messages(status: '200', raw_response: raw_response)
         allow(raw_response).to receive(:body).and_return('oauth_token=test_token')
 
         post "/api/v1/accounts/#{account.id}/twitter/authorization",

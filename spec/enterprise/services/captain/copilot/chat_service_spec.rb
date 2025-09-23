@@ -35,8 +35,7 @@ RSpec.describe Captain::Copilot::ChatService do
       allow(mock_openai_client).to receive(:chat).and_return({ choices: [{ message: { content: '{ "result": "Hey" }' } }] }.with_indifferent_access)
 
       allow(Captain::Agent).to receive(:new).and_return(mock_captain_agent)
-      allow(mock_captain_agent).to receive(:execute).and_return(true)
-      allow(mock_captain_agent).to receive(:register_tool).and_return(true)
+      allow(mock_captain_agent).to receive_messages(execute: true, register_tool: true)
 
       allow(Captain::Tool).to receive(:new).and_return(mock_captain_tool)
       allow(mock_captain_tool).to receive(:register_method).and_return(true)
@@ -71,8 +70,7 @@ RSpec.describe Captain::Copilot::ChatService do
       allow(mock_openai_client).to receive(:chat).and_return({ choices: [{ message: { content: '{ "result": "Hey" }' } }] }.with_indifferent_access)
 
       allow(Captain::Agent).to receive(:new).and_return(mock_captain_agent)
-      allow(mock_captain_agent).to receive(:execute).and_return(true)
-      allow(mock_captain_agent).to receive(:register_tool).and_return(true)
+      allow(mock_captain_agent).to receive_messages(execute: true, register_tool: true)
 
       allow(Captain::Tool).to receive(:new).and_return(mock_captain_tool)
       allow(mock_captain_tool).to receive(:register_method).and_return(true)

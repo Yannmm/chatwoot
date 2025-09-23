@@ -24,7 +24,7 @@ RSpec.describe 'Enterprise Audit API', type: :request do
       expect(user.audits.last.associated_type).to eq('Account')
     end
 
-    it 'will not create a sign_in audit event with invalid credentials' do
+    it 'does not create a sign_in audit event with invalid credentials' do
       params = { email: user.email, password: 'invalid' }
       expect do
         post new_user_session_url,

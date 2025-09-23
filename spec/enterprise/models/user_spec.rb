@@ -11,8 +11,7 @@ RSpec.describe User do
 
     context 'when pricing plan is not premium' do
       before do
-        allow(ChatwootHub).to receive(:pricing_plan).and_return('community')
-        allow(ChatwootHub).to receive(:pricing_plan_quantity).and_return(0)
+        allow(ChatwootHub).to receive_messages(pricing_plan: 'community', pricing_plan_quantity: 0)
       end
 
       it 'does not add an error to the user' do
@@ -33,7 +32,7 @@ RSpec.describe User do
           expect(new_user.errors[:base]).to include('User limit reached. Please purchase more licenses from super admin')
         end
 
-        it 'will not add error when trying to update a existing user' do
+        it 'does not add error when trying to update a existing user' do
           allow(ChatwootHub).to receive(:pricing_plan_quantity).and_return(1)
           existing_user.update(name: 'new name')
           # since there is user and existing user, we are already over limits

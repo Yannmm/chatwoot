@@ -107,7 +107,7 @@ class Notification::PushNotificationService
   end
 
   def remove_subscription_if_error(subscription, response)
-    if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
+    if JSON.parse(response[:body])['results']&.first&.key?('error')
       subscription.destroy!
     else
       Rails.logger.info("FCM push sent to #{user.email} with title #{push_message[:title]}")

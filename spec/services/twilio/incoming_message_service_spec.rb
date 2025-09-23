@@ -128,7 +128,7 @@ describe Twilio::IncomingMessageService do
         expect(twilio_channel.inbox.conversations.last.messages.last.content).to eq('testing3')
       end
 
-      it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
+      it 'does not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
         params = {
           SmsSid: 'SMxx',
           From: '+12345',

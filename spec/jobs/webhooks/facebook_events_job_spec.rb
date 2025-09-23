@@ -10,8 +10,7 @@ RSpec.describe Webhooks::FacebookEventsJob do
 
   before do
     allow(Integrations::Facebook::MessageParser).to receive(:new).and_return(parsed_response)
-    allow(parsed_response).to receive(:sender_id).and_return('sender_id')
-    allow(parsed_response).to receive(:recipient_id).and_return('recipient_id')
+    allow(parsed_response).to receive_messages(sender_id: 'sender_id', recipient_id: 'recipient_id')
   end
 
   it 'enqueues the job' do

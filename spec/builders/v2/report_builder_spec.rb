@@ -108,7 +108,7 @@ describe V2::ReportBuilder do
             until: Time.zone.today.end_of_day.to_time.to_i.to_s
           }
 
-          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations = account.conversations.where(created_at: ...1.day.ago)
           perform_enqueued_jobs do
             # Resolve all 5 conversations
             conversations.each(&:resolved!)
@@ -136,7 +136,7 @@ describe V2::ReportBuilder do
           }
 
           create(:agent_bot_inbox, inbox: account.inboxes.first)
-          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations = account.conversations.where(created_at: ...1.day.ago)
           conversations.each do |conversation|
             conversation.messages.outgoing.all.update(sender: nil)
           end
@@ -170,7 +170,7 @@ describe V2::ReportBuilder do
           }
 
           create(:agent_bot_inbox, inbox: account.inboxes.first)
-          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations = account.conversations.where(created_at: ...1.day.ago)
           conversations.each do |conversation|
             conversation.pending!
             conversation.messages.outgoing.all.update(sender: nil)
@@ -232,7 +232,7 @@ describe V2::ReportBuilder do
           metric: 'avg_first_response_time',
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
           until: Time.zone.today.end_of_day.to_time.to_i.to_s,
-          group_by: 'test'.to_s
+          group_by: 'test'
         }
 
         builder = described_class.new(account, params)
@@ -326,7 +326,7 @@ describe V2::ReportBuilder do
             until: (Time.zone.today + 1.day).to_time.to_i.to_s
           }
 
-          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations = account.conversations.where(created_at: ...1.day.ago)
 
           perform_enqueued_jobs do
             # ensure 5 reporting events are created
@@ -385,7 +385,7 @@ describe V2::ReportBuilder do
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
           until: Time.zone.today.end_of_day.to_time.to_i.to_s,
-          group_by: 'week'.to_s
+          group_by: 'week'
         }
 
         builder = described_class.new(account, params)
@@ -405,7 +405,7 @@ describe V2::ReportBuilder do
           id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
           until: Time.zone.today.end_of_day.to_time.to_i.to_s,
-          group_by: 'test'.to_s
+          group_by: 'test'
         }
 
         builder = described_class.new(account, params)

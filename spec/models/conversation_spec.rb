@@ -162,19 +162,19 @@ RSpec.describe Conversation do
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
-    it 'will not run conversation_updated event for empty updates' do
+    it 'does not run conversation_updated event for empty updates' do
       conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
 
-    it 'will not run conversation_updated event for non whitelisted keys' do
+    it 'does not run conversation_updated event for non whitelisted keys' do
       conversation.update(updated_at: DateTime.now.utc)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
 
-    it 'will run conversation_updated event for conversation_language in additional_attributes' do
+    it 'runs conversation_updated event for conversation_language in additional_attributes' do
       conversation.additional_attributes[:conversation_language] = 'es'
       conversation.save!
       changed_attributes = conversation.previous_changes
@@ -183,7 +183,7 @@ RSpec.describe Conversation do
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
-    it 'will not run conversation_updated event for bowser_language in additional_attributes' do
+    it 'does not run conversation_updated event for bowser_language in additional_attributes' do
       conversation.additional_attributes[:browser_language] = 'es'
       conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)

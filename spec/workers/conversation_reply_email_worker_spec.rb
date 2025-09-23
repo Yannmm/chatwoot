@@ -13,8 +13,7 @@ RSpec.describe ConversationReplyEmailWorker, type: :worker do
       allow(Conversation).to receive(:find).and_return(conversation)
       allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
       allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
-      allow(mailer).to receive(:reply_with_summary).and_return(mailer_action)
-      allow(mailer).to receive(:reply_without_summary).and_return(mailer_action)
+      allow(mailer).to receive_messages(reply_with_summary: mailer_action, reply_without_summary: mailer_action)
       allow(mailer_action).to receive(:deliver_later).and_return(true)
     end
 

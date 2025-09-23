@@ -10,19 +10,19 @@ RSpec.describe Avatar::AvatarFromGravatarJob do
       .on_queue('low')
   end
 
-  it 'will call AvatarFromUrlJob with gravatar url' do
+  it 'calls AvatarFromUrlJob with gravatar url' do
     expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(avatarable, gravatar_url)
     described_class.perform_now(avatarable, email)
   end
 
-  it 'will not call AvatarFromUrlJob if DISABLE_GRAVATAR is configured' do
+  it 'does not call AvatarFromUrlJob if DISABLE_GRAVATAR is configured' do
     with_modified_env DISABLE_GRAVATAR: 'true' do
       expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(avatarable, gravatar_url)
       described_class.perform_now(avatarable, '')
     end
   end
 
-  it 'will not call AvatarFromUrlJob if email is blank' do
+  it 'does not call AvatarFromUrlJob if email is blank' do
     expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(avatarable, gravatar_url)
     described_class.perform_now(avatarable, '')
   end

@@ -88,7 +88,7 @@ RSpec.describe 'API Base', type: :request do
       end
 
       # this exception occured in a client instance (DoubleRender error)
-      it 'will not throw exception if user does not have access to suspended account' do
+      it 'does not throw exception if user does not have access to suspended account' do
         user_with_out_access = create(:user)
         account.update!(status: :suspended)
 

@@ -21,7 +21,7 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
   end
 
   describe '#perform' do
-    it 'will assign an online agent to the conversation' do
+    it 'assigns an online agent to the conversation' do
       expect(conversation.reload.assignee).to be_nil
       described_class.new(conversation: conversation, allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).perform
       expect(conversation.reload.assignee).not_to be_nil
@@ -29,7 +29,7 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
   end
 
   describe '#find_assignee' do
-    it 'will return an online agent from the allowed agent ids in roud robin' do
+    it 'returns an online agent from the allowed agent ids in roud robin' do
       expect(described_class.new(conversation: conversation,
                                  allowed_agent_ids: inbox_members.map(&:user_id).map(&:to_s)).find_assignee).to eq(inbox_members[3].user)
       expect(described_class.new(conversation: conversation,

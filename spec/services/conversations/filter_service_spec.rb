@@ -486,7 +486,7 @@ describe Conversations::FilterService do
             }.with_indifferent_access
           ]
 
-          expected_count = Conversation.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+          expected_count = Conversation.where(last_activity_at: ...(Time.zone.today - 2.days)).count
 
           result = filter_service.new(params, user_1).perform
           expect(result[:conversations].length).to be expected_count

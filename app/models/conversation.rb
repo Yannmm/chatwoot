@@ -69,8 +69,8 @@ class Conversation < ApplicationRecord
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
-  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
-  enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum :status, { open: 0, resolved: 1, pending: 2, snoozed: 3 }
+  enum :priority, { low: 0, medium: 1, high: 2, urgent: 3 }
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
@@ -79,7 +79,7 @@ class Conversation < ApplicationRecord
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
-    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+    open.where(last_activity_at: ...(Time.now.utc - auto_resolve_duration.days))
   }
 
   scope :last_user_message_at, lambda {
@@ -255,10 +255,8 @@ class Conversation < ApplicationRecord
   end
 
   def allowed_keys?
-    (
-      previous_changes.keys.intersect?(list_of_keys) ||
+    previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
-    )
   end
 
   def load_attributes_created_by_db_triggers
@@ -290,8 +288,9 @@ class Conversation < ApplicationRecord
 
   def conversation_status_changed_to_open?
     return false unless open?
+
     # saved_change_to_status? method only works in case of update
-    return true if previous_changes.key?(:id) || saved_change_to_status?
+    true if previous_changes.key?(:id) || saved_change_to_status?
   end
 
   def create_label_change(user_name)

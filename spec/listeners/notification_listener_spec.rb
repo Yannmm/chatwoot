@@ -54,7 +54,7 @@ describe NotificationListener do
       notification_setting.save!
     end
 
-    it 'will call mention service' do
+    it 'calls mention service' do
       mention_service = instance_double(Messages::MentionService)
       allow(Messages::MentionService).to receive(:new).and_return(mention_service)
       allow(mention_service).to receive(:perform)
@@ -75,7 +75,7 @@ describe NotificationListener do
       listener.message_created(event)
     end
 
-    it 'will call new message notification service' do
+    it 'calls new message notification service' do
       notification_service = instance_double(Messages::NewMessageNotificationService)
       allow(Messages::NewMessageNotificationService).to receive(:new).and_return(notification_service)
       allow(notification_service).to receive(:perform)
@@ -97,7 +97,7 @@ describe NotificationListener do
     end
 
     context 'when message content is empty' do
-      it 'will be processed correctly' do
+      it 'is processed correctly' do
         builder = double
         allow(NotificationBuilder).to receive(:new).and_return(builder)
         allow(builder).to receive(:perform)
@@ -124,7 +124,7 @@ describe NotificationListener do
   describe 'message_created - mentions, participation & assignment integration' do
     let(:event_name) { :'message.created' }
 
-    it 'will not create duplicate new message notification for the same user for mentions participation & assignment' do
+    it 'does not create duplicate new message notification for the same user for mentions participation & assignment' do
       create(:inbox_member, user: first_agent, inbox: inbox)
       conversation.update(assignee: first_agent)
 
@@ -142,7 +142,7 @@ describe NotificationListener do
       expect(first_agent.notifications.first.notification_type).to eq('conversation_mention')
     end
 
-    it 'will not create duplicate new message notifications for assignment & participation' do
+    it 'does not create duplicate new message notifications for assignment & participation' do
       create(:inbox_member, user: first_agent, inbox: inbox)
       conversation.update(assignee: first_agent)
       # participants is created by async job. so creating it directly for testcase

@@ -317,7 +317,7 @@ RSpec.describe 'Conversations API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent, auto_offline: false) }
       let(:team) { create(:team, account: account) }
 
-      it 'will not create a new conversation if agent does not have access to inbox' do
+      it 'does not create a new conversation if agent does not have access to inbox' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         additional_attributes = { test: 'test' }
         post "/api/v1/accounts/#{account.id}/conversations",

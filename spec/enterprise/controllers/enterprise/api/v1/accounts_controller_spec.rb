@@ -96,8 +96,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
 
           create_session_service = double
           allow(Enterprise::Billing::CreateSessionService).to receive(:new).and_return(create_session_service)
-          allow(create_session_service).to receive(:create_session).and_return(create_session_service)
-          allow(create_session_service).to receive(:url).and_return('https://billing.stripe.com/random_string')
+          allow(create_session_service).to receive_messages(create_session: create_session_service, url: 'https://billing.stripe.com/random_string')
 
           post "/enterprise/api/v1/accounts/#{account.id}/checkout",
                headers: admin.create_new_auth_token,

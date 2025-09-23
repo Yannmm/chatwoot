@@ -18,9 +18,7 @@ class NotificationFinder
     @notifications.where(read_at: nil).count
   end
 
-  def count
-    @notifications.count
-  end
+  delegate :count, to: :@notifications
 
   private
 

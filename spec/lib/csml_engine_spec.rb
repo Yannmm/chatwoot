@@ -16,8 +16,7 @@ describe CsmlEngine do
     context 'when status is called' do
       it 'returns api response if client response is valid' do
         allow(HTTParty).to receive(:get).and_return(csml_request)
-        allow(csml_request).to receive(:success?).and_return(true)
-        allow(csml_request).to receive(:parsed_response).and_return({ 'engine_version': '1.11.1' })
+        allow(csml_request).to receive_messages(success?: true, parsed_response: { 'engine_version': '1.11.1' })
 
         response = described_class.new.status
 
@@ -29,9 +28,7 @@ describe CsmlEngine do
 
       it 'returns error if client response is invalid' do
         allow(HTTParty).to receive(:get).and_return(csml_request)
-        allow(csml_request).to receive(:success?).and_return(false)
-        allow(csml_request).to receive(:code).and_return(401)
-        allow(csml_request).to receive(:parsed_response).and_return({ 'error': true })
+        allow(csml_request).to receive_messages(success?: false, code: 401, parsed_response: { 'error': true })
 
         response = described_class.new.status
 
@@ -45,8 +42,7 @@ describe CsmlEngine do
       it 'returns api response if client response is valid' do
         allow(HTTParty).to receive(:post).and_return(csml_request)
         allow(SecureRandom).to receive(:uuid).and_return('xxxx-yyyy-wwww-cccc')
-        allow(csml_request).to receive(:success?).and_return(true)
-        allow(csml_request).to receive(:parsed_response).and_return({ 'success': true })
+        allow(csml_request).to receive_messages(success?: true, parsed_response: { 'success': true })
 
         response = described_class.new.run({ flow: 'default' }, { client: 'client', payload: { id: 1 }, metadata: {} })
 
@@ -77,8 +73,7 @@ describe CsmlEngine do
       it 'returns api response if client response is valid' do
         allow(HTTParty).to receive(:post).and_return(csml_request)
         allow(SecureRandom).to receive(:uuid).and_return('xxxx-yyyy-wwww-cccc')
-        allow(csml_request).to receive(:success?).and_return(true)
-        allow(csml_request).to receive(:parsed_response).and_return({ 'success': true })
+        allow(csml_request).to receive_messages(success?: true, parsed_response: { 'success': true })
 
         payload = { flow: 'default' }
         response = described_class.new.validate(payload)

@@ -20,7 +20,7 @@ RSpec.describe DeleteObjectJob, type: :job do
       expect { inbox.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it 'will not create logs for other objects' do
+    it 'does not create logs for other objects' do
       described_class.perform_later(account, user, '127.0.0.1')
       perform_enqueued_jobs
       expect(Audited::Audit.where(auditable_type: 'Team', action: 'destroy').count).to eq 0

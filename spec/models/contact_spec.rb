@@ -53,7 +53,7 @@ RSpec.describe Contact do
   end
 
   context 'when phone number format' do
-    it 'will throw error for existing invalid phone number' do
+    it 'throws error for existing invalid phone number' do
       contact = create(:contact)
       expect { contact.update!(phone_number: '123456789') }.to raise_error(ActiveRecord::RecordInvalid)
     end
@@ -66,7 +66,7 @@ RSpec.describe Contact do
   end
 
   context 'when email format' do
-    it 'will throw error for existing invalid email' do
+    it 'throws error for existing invalid email' do
       contact = create(:contact)
       expect { contact.update!(email: '<2324234234') }.to raise_error(ActiveRecord::RecordInvalid)
     end

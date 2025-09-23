@@ -16,7 +16,7 @@ describe ChatwootHub do
         .merge(described_class.instance_metrics).to_json, { content_type: :json, accept: :json })
     end
 
-    it 'will not send instance metrics when telemetry is disabled' do
+    it 'does not send instance metrics when telemetry is disabled' do
       version = '1.1.1'
       with_modified_env DISABLE_TELEMETRY: 'true' do
         allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
@@ -50,7 +50,7 @@ describe ChatwootHub do
     let(:event_name) { 'sample_event' }
     let(:event_data) { { 'sample_data' => 'sample_data' } }
 
-    it 'will send instance events' do
+    it 'sends instance events' do
       info = { event_name: event_name, event_data: event_data }
       allow(RestClient).to receive(:post)
       described_class.emit_event(event_name, event_data)
@@ -58,7 +58,7 @@ describe ChatwootHub do
                                                       info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
     end
 
-    it 'will not send instance events when telemetry is disabled' do
+    it 'does not send instance events when telemetry is disabled' do
       with_modified_env DISABLE_TELEMETRY: 'true' do
         info = { event_name: event_name, event_data: event_data }
         allow(RestClient).to receive(:post)

@@ -106,7 +106,7 @@ RSpec.describe 'Platform Users API', type: :request do
         #   byebug
         # end.not_to have_enqueued_mail
 
-        ##------ revert this block when the issue is fixed
+        # #------ revert this block when the issue is fixed
         post '/platform/api/v1/users/', params: { name: 'test', display_name: 'displaytest',
                                                   email: 'test@test.com', password: 'Password1!',
                                                   custom_attributes: { test: 'test_create' } },
@@ -115,7 +115,7 @@ RSpec.describe 'Platform Users API', type: :request do
           job[:job] == 'ActionMailer::MailDeliveryJob'
         end
         expect(mail_jobs.count).to eq(0)
-        ##------ revert this block when the issue is fixed
+        # #------ revert this block when the issue is fixed
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body

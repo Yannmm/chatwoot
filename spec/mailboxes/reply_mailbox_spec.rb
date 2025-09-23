@@ -81,7 +81,7 @@ RSpec.describe ReplyMailbox do
         expect(conversation.messages.last.content).to include('HTML content and inline images')
       end
 
-      it 'will not add the attachments' do
+      it 'does not add the attachments' do
         expect(conversation.messages.last.attachments.count).to eq(0)
 
         html_full_content = conversation.messages.last.content_attributes[:email][:html_content][:full]
@@ -103,7 +103,7 @@ RSpec.describe ReplyMailbox do
         described_subject
       end
 
-      it 'will not add the attachments' do
+      it 'does not add the attachments' do
         described_class.receive mail_with_plain_text_and_inline_image
         text_full_content = conversation.messages.last.content_attributes[:email][:text_content][:full]
 

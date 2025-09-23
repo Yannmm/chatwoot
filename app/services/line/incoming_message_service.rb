@@ -30,7 +30,7 @@ class Line::IncomingMessageService
   end
 
   def message_created?(event)
-    return unless event_type_message?(event)
+    return false unless event_type_message?(event)
 
     @message = @conversation.messages.build(
       content: message_content(event),
@@ -94,7 +94,7 @@ class Line::IncomingMessageService
   end
 
   def event_type_message?(event)
-    event['type'] == 'message' || event['type'] == 'sticker'
+    %w[message sticker].include?(event['type'])
   end
 
   def message_type_non_text?(type)

@@ -223,7 +223,7 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
       end
 
-      it 'will not update onboarding step if onboarding step is not present in account custom attributes' do
+      it 'does not update onboarding step if onboarding step is not present in account custom attributes' do
         put "/api/v1/accounts/#{account.id}",
             params: params,
             headers: admin.create_new_auth_token,

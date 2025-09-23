@@ -37,7 +37,7 @@ describe AutoAssignment::InboxRoundRobinService do
     end
 
     context 'when allowed_agent_ids is passed' do
-      it 'will get the first allowed member and move it to the end of the queue' do
+      it 'gets the first allowed member and move it to the end of the queue' do
         expected_queue = [inbox_members[3].user_id, inbox_members[2].user_id, inbox_members[4].user_id, inbox_members[1].user_id,
                           inbox_members[0].user_id].map(&:to_s)
         expect(described_class.new(inbox: inbox).available_agent(

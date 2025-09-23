@@ -16,12 +16,10 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
 
   before do
     allow(Twitty::Facade).to receive(:new).and_return(twitter_client)
-    allow(Redis::Alfred).to receive(:get).and_return(account.id)
-    allow(Redis::Alfred).to receive(:delete).and_return('OK')
-    allow(twitter_client).to receive(:access_token).and_return(twitter_response)
+    allow(Redis::Alfred).to receive_messages(get: account.id, delete: 'OK')
     allow(twitter_response).to receive(:raw_response).and_return(raw_response)
     allow(raw_response).to receive(:body).and_return('oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
-    allow(twitter_client).to receive(:user_show).and_return(user_object_rsponse)
+    allow(twitter_client).to receive_messages(access_token: twitter_response, user_show: user_object_rsponse)
     allow(JSON).to receive(:parse).and_return(user_object_rsponse)
     allow(Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
   end

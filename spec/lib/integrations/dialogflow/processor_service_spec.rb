@@ -37,7 +37,7 @@ describe Integrations::Dialogflow::ProcessorService do
     end
 
     context 'when invalid message and dialogflow returns empty block' do
-      it 'will not create the response message' do
+      it 'does not create the response message' do
         event_data = { message: template_message }
         processor = described_class.new(event_name: event_name, hook: hook, event_data: event_data)
         processor.perform
@@ -55,7 +55,7 @@ describe Integrations::Dialogflow::ProcessorService do
     end
 
     context 'when dilogflow settings are not present' do
-      it 'will get empty response' do
+      it 'gets empty response' do
         last_count = conversation.reload.messages.count
         allow(processor).to receive(:get_response).and_return({})
         hook.settings = { 'project_id' => 'something_invalid', 'credentials' => {} }

@@ -18,7 +18,7 @@ module Liquidable
   end
 
   def liquid_processable_message?
-    content.present? && (message_type == 'outgoing' || message_type == 'template')
+    content.present? && %w[outgoing template].include?(message_type)
   end
 
   def process_liquid_in_content

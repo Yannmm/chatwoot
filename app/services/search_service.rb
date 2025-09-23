@@ -77,7 +77,7 @@ class SearchService
 
   def message_base_query
     current_account.messages.where(inbox_id: accessable_inbox_ids)
-                   .where('created_at >= ?', 3.months.ago)
+                   .where(created_at: 3.months.ago..)
   end
 
   def use_gin_search

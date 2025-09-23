@@ -12,8 +12,7 @@ describe Sms::SendOnSmsService do
         message = create(:message, message_type: :outgoing, content: 'test',
                                    conversation: conversation)
         allow(HTTParty).to receive(:post).and_return(sms_request)
-        allow(sms_request).to receive(:success?).and_return(true)
-        allow(sms_request).to receive(:parsed_response).and_return({ 'id' => '123456789' })
+        allow(sms_request).to receive_messages(success?: true, parsed_response: { 'id' => '123456789' })
         expect(HTTParty).to receive(:post).with(
           'https://messaging.bandwidth.com/api/v2/users/1/messages',
           basic_auth: { username: '1', password: '1' },
@@ -34,8 +33,7 @@ describe Sms::SendOnSmsService do
         message.save!
 
         allow(HTTParty).to receive(:post).and_return(sms_request)
-        allow(sms_request).to receive(:success?).and_return(true)
-        allow(sms_request).to receive(:parsed_response).and_return({ 'id' => '123456789' })
+        allow(sms_request).to receive_messages(success?: true, parsed_response: { 'id' => '123456789' })
         allow(attachment).to receive(:download_url).and_return('url1')
         allow(attachment2).to receive(:download_url).and_return('url2')
         expect(HTTParty).to receive(:post).with(

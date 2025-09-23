@@ -23,6 +23,6 @@ class Webhooks::SmsEventsJob < ApplicationJob
   end
 
   def delivery_event?(params)
-    params[:type] == 'message-delivered' || params[:type] == 'message-failed'
+    %w[message-delivered message-failed].include?(params[:type])
   end
 end

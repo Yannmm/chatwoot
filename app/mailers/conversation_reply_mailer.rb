@@ -9,8 +9,8 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    recap_messages = @conversation.messages.chat.where('id < ?', last_queued_id).last(10)
-    new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
+    recap_messages = @conversation.messages.chat.where(id: ...last_queued_id).last(10)
+    new_messages = @conversation.messages.chat.where(id: last_queued_id..)
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
     prepare_mail(true)
@@ -22,7 +22,7 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
+    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where(id: last_queued_id..)
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
@@ -72,8 +72,8 @@ class ConversationReplyMailer < ApplicationMailer
 
   def conversation_already_viewed?
     # whether contact already saw the message on widget
-    return unless @conversation.contact_last_seen_at
-    return unless last_outgoing_message&.created_at
+    return false unless @conversation.contact_last_seen_at
+    return false unless last_outgoing_message&.created_at
 
     @conversation.contact_last_seen_at > last_outgoing_message&.created_at
   end
@@ -194,7 +194,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def choose_layout
-    return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
+    return false if %w[reply_without_summary email_reply].include?(action_name)
 
     'mailer/base'
   end

@@ -54,7 +54,7 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response.body).to include('provider_config')
         end
 
-        it 'will not return provider config for agent' do
+        it 'does not return provider config for agent' do
           get "/api/v1/accounts/#{account.id}/inboxes",
               headers: agent.create_new_auth_token,
               as: :json
@@ -339,7 +339,7 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
 
-      it 'will not create inbox for agent' do
+      it 'does not create inbox for agent' do
         agent = create(:user, account: account, role: :agent)
 
         post "/api/v1/accounts/#{account.id}/inboxes",
@@ -434,7 +434,7 @@ RSpec.describe 'Inboxes API', type: :request do
       let!(:portal) { create(:portal, account_id: account.id) }
       let(:valid_params) { { name: 'new test inbox', enable_auto_assignment: false, portal_id: portal.id } }
 
-      it 'will not update inbox for agent' do
+      it 'does not update inbox for agent' do
         agent = create(:user, account: account, role: :agent)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
@@ -589,10 +589,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with starttls encryption' do
         smtp_connection = double
-        allow(smtp_connection).to receive(:start).and_return(true)
-        allow(smtp_connection).to receive(:finish).and_return(true)
-        allow(smtp_connection).to receive(:respond_to?).and_return(true)
-        allow(smtp_connection).to receive(:enable_starttls_auto).and_return(true)
+        allow(smtp_connection).to receive_messages(start: true, finish: true, respond_to?: true, enable_starttls_auto: true)
         allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
@@ -619,10 +616,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with ssl/tls encryption' do
         smtp_connection = double
-        allow(smtp_connection).to receive(:start).and_return(true)
-        allow(smtp_connection).to receive(:finish).and_return(true)
-        allow(smtp_connection).to receive(:respond_to?).and_return(true)
-        allow(smtp_connection).to receive(:enable_tls).and_return(true)
+        allow(smtp_connection).to receive_messages(start: true, finish: true, respond_to?: true, enable_tls: true)
         allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
@@ -649,10 +643,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates smtp configuration with authentication mechanism' do
         smtp_connection = double
-        allow(smtp_connection).to receive(:start).and_return(true)
-        allow(smtp_connection).to receive(:finish).and_return(true)
-        allow(smtp_connection).to receive(:respond_to?).and_return(true)
-        allow(smtp_connection).to receive(:enable_starttls_auto).and_return(true)
+        allow(smtp_connection).to receive_messages(start: true, finish: true, respond_to?: true, enable_starttls_auto: true)
         allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
@@ -762,7 +753,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.reload.agent_bot).to be_falsey
       end
 
-      it 'will not update agent bot when its an agent' do
+      it 'does not update agent bot when its an agent' do
         agent = create(:user, account: account, role: :agent)
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",

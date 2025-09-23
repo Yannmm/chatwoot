@@ -226,7 +226,7 @@ describe Messages::Instagram::MessageBuilder do
       expect(Conversation.count).to eq(inital_count + 1)
     end
 
-    it 'will not create a new conversation if last conversation is not resolved' do
+    it 'does not create a new conversation if last conversation is not resolved' do
       existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id, status: :open,
                                                     additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
 

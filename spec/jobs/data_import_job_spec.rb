@@ -62,7 +62,7 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.reload.processed_records).to eq(csv_length)
       end
 
-      it 'will preserve emojis' do
+      it 'preserves emojis' do
         data_import = create(:data_import,
                              import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/with_emoji.csv'),
                                                                        'text/csv'))
@@ -75,7 +75,7 @@ RSpec.describe DataImportJob do
         expect(data_import.account.contacts.first.name).to eq('T 🏠 🔥 Test')
       end
 
-      it 'will not throw error for non utf-8 characters' do
+      it 'does not throw error for non utf-8 characters' do
         invalid_data_import = create(:data_import,
                                      import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/invalid_bytes.csv'),
                                                                                'text/csv'))
@@ -114,8 +114,8 @@ RSpec.describe DataImportJob do
           contact = Contact.from_email(csv_data[0]['email'])
           expect(contact).to be_present
           expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
-          expect(contact.name).to eq((csv_data[0]['name']).to_s)
-          expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+          expect(contact.name).to eq(csv_data[0]['name'].to_s)
+          expect(contact.additional_attributes['company']).to eq(csv_data[0]['company'].to_s)
         end
       end
 
@@ -131,8 +131,8 @@ RSpec.describe DataImportJob do
           contact = Contact.find_by(phone_number: "+#{csv_data[0]['phone_number']}")
           expect(contact).to be_present
           expect(contact.email).to eq(csv_data[0]['email'])
-          expect(contact.name).to eq((csv_data[0]['name']).to_s)
-          expect(contact.additional_attributes['company']).to eq((csv_data[0]['company']).to_s)
+          expect(contact.name).to eq(csv_data[0]['name'].to_s)
+          expect(contact.additional_attributes['company']).to eq(csv_data[0]['company'].to_s)
         end
       end
 

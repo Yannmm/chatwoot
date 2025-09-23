@@ -41,7 +41,7 @@ RSpec.describe User do
         expect(user.pubsub_token).not_to eq(pubsub_token)
       end
 
-      it 'will not change pubsub_token when other attributes change' do
+      it 'does not change pubsub_token when other attributes change' do
         pubsub_token = user.pubsub_token
         user.name = Faker::Name.name
         user.save!

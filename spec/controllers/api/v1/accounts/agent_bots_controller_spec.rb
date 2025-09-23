@@ -51,7 +51,7 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(response.body).to include(agent_bot.access_token.token)
       end
 
-      it 'will show a global agent bot' do
+      it 'shows a global agent bot' do
         global_bot = create(:agent_bot)
         get "/api/v1/accounts/#{account.id}/agent_bots/#{global_bot.id}",
             headers: agent.create_new_auth_token,

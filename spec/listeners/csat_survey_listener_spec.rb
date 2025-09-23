@@ -25,7 +25,7 @@ describe CsatSurveyListener do
         listener.message_updated(event)
       end
 
-      it 'will not trigger if message is not input csat' do
+      it 'does not trigger if message is not input csat' do
         message = create(:message)
         event = Events::Base.new(event_name, Time.zone.now, message: message)
         expect(CsatSurveys::ResponseBuilder).not_to receive(:new).with(message: message)

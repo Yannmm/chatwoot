@@ -69,13 +69,13 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.body.decoded).to include(message.content)
       end
 
-      it 'will not send email if conversation is already viewed by contact' do
+      it 'does not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
         expect(mail).to be_nil
       end
 
-      it 'will send email to cc and bcc email addresses' do
+      it 'sends email to cc and bcc email addresses' do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
       end
@@ -130,7 +130,7 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.body.decoded).to include(message_2.content)
       end
 
-      it 'will not send email if conversation is already viewed by contact' do
+      it 'does not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
         expect(mail).to be_nil

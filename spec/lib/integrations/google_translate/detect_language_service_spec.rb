@@ -20,21 +20,21 @@ describe Integrations::GoogleTranslate::DetectLanguageService do
       expect(message.conversation.reload.additional_attributes['conversation_language']).to eq('es')
     end
 
-    it 'will not update the conversation language if it is already present' do
+    it 'does not update the conversation language if it is already present' do
       message.conversation.update!(additional_attributes: { conversation_language: 'en' })
       described_class.new(hook: hook, message: message).perform
       expect(translate_client).not_to have_received(:detect_language)
       expect(message.conversation.reload.additional_attributes['conversation_language']).to eq('en')
     end
 
-    it 'will not update the conversation language if the message is not incoming' do
+    it 'does not update the conversation language if the message is not incoming' do
       message.update!(message_type: :outgoing)
       described_class.new(hook: hook, message: message).perform
       expect(translate_client).not_to have_received(:detect_language)
       expect(message.conversation.reload.additional_attributes['conversation_language']).to be_nil
     end
 
-    it 'will not execute if the message content is blank' do
+    it 'does not execute if the message content is blank' do
       message.update!(content: nil)
       described_class.new(hook: hook, message: message).perform
       expect(translate_client).not_to have_received(:detect_language)

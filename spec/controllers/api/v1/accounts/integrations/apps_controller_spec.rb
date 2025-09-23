@@ -28,7 +28,7 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(apps['action']).to be_nil
       end
 
-      it 'will not return sensitive information for openai app for agents' do
+      it 'does not return sensitive information for openai app for agents' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_apps_url(account),
             headers: agent.create_new_auth_token,
@@ -66,7 +66,7 @@ RSpec.describe 'Integration Apps API', type: :request do
         end
       end
 
-      it 'will return sensitive information for openai app for admins' do
+      it 'returns sensitive information for openai app for admins' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_apps_url(account),
             headers: admin.create_new_auth_token,
@@ -103,7 +103,7 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(app['name']).to eql('Slack')
       end
 
-      it 'will not return sensitive information for openai app for agents' do
+      it 'does not return sensitive information for openai app for agents' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_app_url(account_id: account.id, id: openai.app.id),
             headers: agent.create_new_auth_token,
@@ -115,7 +115,7 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(app['hooks'].first['settings']).to be_nil
       end
 
-      it 'will return sensitive information for openai app for admins' do
+      it 'returns sensitive information for openai app for admins' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_app_url(account_id: account.id, id: openai.app.id),
             headers: admin.create_new_auth_token,

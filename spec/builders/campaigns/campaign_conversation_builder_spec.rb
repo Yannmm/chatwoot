@@ -19,7 +19,7 @@ describe Campaigns::CampaignConversationBuilder do
       expect(campaign_conversation.messages.first.additional_attributes['campaign_id']).to eq(campaign.id)
     end
 
-    it 'will not create a conversation with campaign id if another conversation exists' do
+    it 'does not create a conversation with campaign id if another conversation exists' do
       create(:conversation, contact_inbox_id: contact_inbox.id, inbox: inbox, account: account)
       campaign_conversation = described_class.new(
         contact_inbox_id: contact_inbox.id,

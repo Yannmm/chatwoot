@@ -86,7 +86,7 @@ describe Messages::Facebook::MessageBuilder do
           expect(Conversation.count).to eq(inital_count + 1)
         end
 
-        it 'will not create a new conversation if last conversation is not resolved' do
+        it 'does not create a new conversation if last conversation is not resolved' do
           existing_conversation = create(:conversation, account_id: facebook_channel.inbox.account.id, inbox_id: facebook_channel.inbox.id,
                                                         contact_id: contact.id, contact_inbox_id: contact_inbox.id,
                                                         status: :open)

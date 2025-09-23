@@ -23,8 +23,7 @@ describe Notification::FcmService do
     end
 
     it 'generates a new token if expired' do
-      allow(fcm_service).to receive(:generate_token).and_return(token_info)
-      allow(fcm_service).to receive(:token_expired?).and_return(true)
+      allow(fcm_service).to receive_messages(generate_token: token_info, token_expired?: true)
 
       expect(fcm_service.fcm_client).to eq(fcm_double)
       expect(FCM).to have_received(:new).with('test_token', anything, project_id)

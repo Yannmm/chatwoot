@@ -9,7 +9,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       .on_queue('low')
   end
 
-  it 'will attach avatar from url' do
+  it 'attaches avatar from url' do
     expect(avatarable.avatar).not_to be_attached
     expect(Down).to receive(:download).with(avatar_url,
                                             max_size: 15 * 1024 * 1024).and_return(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'),
@@ -19,7 +19,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
   end
 
   # ref: https://github.com/chatwoot/chatwoot/issues/10449
-  it 'will not throw error if the avatar url is not valid and the file does not have a filename' do
+  it 'does not throw error if the avatar url is not valid and the file does not have a filename' do
     # Create a temporary file with no filename and content type application/xml
     temp_file = Tempfile.new(['invalid', '.xml'])
     temp_file.write('<invalid>content</invalid>')

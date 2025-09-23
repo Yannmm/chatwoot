@@ -26,7 +26,7 @@ describe NotificationBuilder do
       end.to change { user.notifications.count }.by(1)
     end
 
-    it 'will not throw error if notification setting is not present' do
+    it 'does not throw error if notification setting is not present' do
       perform_enqueued_jobs do
         user.account_users.destroy_all
       end
@@ -40,7 +40,7 @@ describe NotificationBuilder do
       ).to be_nil
     end
 
-    it 'will not create a conversation_creation notification if user is not subscribed to it' do
+    it 'does not create a conversation_creation notification if user is not subscribed to it' do
       notification_setting = user.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = []
       notification_setting.selected_push_flags = []
@@ -56,7 +56,7 @@ describe NotificationBuilder do
       ).to be_nil
     end
 
-    it 'will create a conversation_mention notification even though user is not subscribed to it' do
+    it 'creates a conversation_mention notification even though user is not subscribed to it' do
       notification_setting = user.notification_settings.find_by(account_id: account.id)
       notification_setting.selected_email_flags = []
       notification_setting.selected_push_flags = []
@@ -72,7 +72,7 @@ describe NotificationBuilder do
       end.to change { user.notifications.count }.by(1)
     end
 
-    it 'will not create a notification if conversation contact is blocked and notification type is not conversation_mention' do
+    it 'does not create a notification if conversation contact is blocked and notification type is not conversation_mention' do
       primary_actor.contact.update(blocked: true)
 
       expect do
@@ -85,7 +85,7 @@ describe NotificationBuilder do
       end.not_to(change { user.notifications.count })
     end
 
-    it 'will create a notification if conversation contact is blocked and notification type is conversation_mention' do
+    it 'creates a notification if conversation contact is blocked and notification type is conversation_mention' do
       primary_actor.contact.update(blocked: true)
 
       expect do

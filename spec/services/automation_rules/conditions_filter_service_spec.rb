@@ -25,13 +25,13 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
 
       context 'when conditions in rule matches with object' do
-        it 'will return true' do
+        it 'returns true' do
           expect(described_class.new(rule, conversation, { changed_attributes: { status: [nil, 'open'] } }).perform).to be(true)
         end
       end
 
       context 'when conditions in rule does not match with object' do
-        it 'will return false' do
+        it 'returns false' do
           conversation.update(status: 'resolved')
           expect(described_class.new(rule, conversation, { changed_attributes: { status: %w[open resolved] } }).perform).to be(false)
         end
@@ -50,13 +50,13 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
 
       context 'when conditions in rule matches with object' do
-        it 'will return true' do
+        it 'returns true' do
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
         end
       end
 
       context 'when conditions in rule does not match with object' do
-        it 'will return false' do
+        it 'returns false' do
           conversation.contact.update(phone_number: '+918585858585')
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
         end
@@ -73,11 +73,11 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           rule.save
         end
 
-        it 'will return true when conditions matches' do
+        it 'returns true when conditions matches' do
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
         end
 
-        it 'will return false when conditions in rule does not match' do
+        it 'returns false when conditions in rule does not match' do
           message.update!(message_type: :outgoing)
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
         end
@@ -99,12 +99,12 @@ RSpec.describe AutomationRules::ConditionsFilterService do
                            content_attributes: { email: { text_content: { quoted: 'We will help you' } } })
         end
 
-        it 'will return true for processed_message_content matches' do
+        it 'returns true for processed_message_content matches' do
           message
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
         end
 
-        it 'will return false when processed_message_content does no match' do
+        it 'returns false when processed_message_content does no match' do
           rule.update(conditions: [{ 'values': ['text'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }])
 
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)

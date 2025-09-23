@@ -32,10 +32,8 @@ describe Twitter::SendOnTwitterService do
 
   before do
     allow(Twitty::Facade).to receive(:new).and_return(twitter_client)
-    allow(twitter_client).to receive(:send_direct_message).and_return(true)
-    allow(twitter_client).to receive(:send_tweet_reply).and_return(twitter_response)
-    allow(twitter_response).to receive(:status).and_return('200')
-    allow(twitter_response).to receive(:body).and_return(JSON.parse({ id_str: '12345' }.to_json))
+    allow(twitter_client).to receive_messages(send_direct_message: true, send_tweet_reply: twitter_response)
+    allow(twitter_response).to receive_messages(status: '200', body: JSON.parse({ id_str: '12345' }.to_json))
   end
 
   describe '#perform' do

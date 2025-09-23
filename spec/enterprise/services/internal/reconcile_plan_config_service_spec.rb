@@ -28,7 +28,7 @@ RSpec.describe Internal::ReconcilePlanConfigService do
         expect(Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)).to eq('true')
       end
 
-      it 'will not create a premium config reset warning if config is not modified' do
+      it 'does not create a premium config reset warning if config is not modified' do
         create(:installation_config, name: 'INSTALLATION_NAME', value: 'Chatwoot')
         service.perform
         expect(Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)).to be_nil

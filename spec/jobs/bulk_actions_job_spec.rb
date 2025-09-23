@@ -16,7 +16,7 @@ RSpec.describe BulkActionsJob do
   let!(:conversation_3) { create(:conversation, account_id: account.id, status: :open) }
 
   before do
-    Conversation.all.find_each do |conversation|
+    Conversation.find_each do |conversation|
       create(:inbox_member, inbox: conversation.inbox, user: agent)
     end
   end

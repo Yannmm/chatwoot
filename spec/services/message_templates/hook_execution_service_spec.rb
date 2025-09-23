@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe MessageTemplates::HookExecutionService do
   context 'when there is no incoming message in conversation' do
-    it 'will not call any hooks' do
+    it 'does not call any hooks' do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
       # ensure greeting hook is enabled
@@ -43,7 +43,7 @@ describe MessageTemplates::HookExecutionService do
       expect(email_collect_service).to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::Greeting if its a tweet conversation' do
+    it 'does not call ::MessageTemplates::Template::Greeting if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       # ensure greeting hook is enabled and greeting_message is present
@@ -133,7 +133,7 @@ describe MessageTemplates::HookExecutionService do
       expect(csat_survey).to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
+    it 'does not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
       conversation.inbox.update(csat_survey_enabled: false)
 
       conversation.resolved!
@@ -145,7 +145,7 @@ describe MessageTemplates::HookExecutionService do
       expect(csat_survey).not_to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
+    it 'does not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
@@ -160,7 +160,7 @@ describe MessageTemplates::HookExecutionService do
       expect(csat_survey).not_to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
+    it 'does not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
       conversation.inbox.update(csat_survey_enabled: true)
       conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
 
@@ -213,7 +213,7 @@ describe MessageTemplates::HookExecutionService do
       expect(out_of_office_service).not_to have_received(:perform)
     end
 
-    it 'will not calls ::MessageTemplates::Template::OutOfOffice when outgoing message' do
+    it 'does not calls ::MessageTemplates::Template::OutOfOffice when outgoing message' do
       contact = create(:contact)
       conversation = create(:conversation, contact: contact)
 
@@ -232,7 +232,7 @@ describe MessageTemplates::HookExecutionService do
       expect(out_of_office_service).not_to have_received(:perform)
     end
 
-    it 'will not call ::MessageTemplates::Template::OutOfOffice if its a tweet conversation' do
+    it 'does not call ::MessageTemplates::Template::OutOfOffice if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       twitter_inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
